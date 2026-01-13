@@ -40,7 +40,7 @@ export const Header = () => {
         {/* Location (Desktop) */}
         <div className="hidden items-center gap-2 rounded-full bg-secondary px-4 py-2 md:flex">
           <MapPin className="h-4 w-4 text-primary" />
-          <span className="text-sm font-medium text-foreground">Bangalore, India</span>
+          <span className="text-sm font-medium text-foreground">manjeri,malappuram</span>
         </div>
 
         {/* Search Bar (Desktop) */}

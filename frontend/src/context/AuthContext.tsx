@@ -22,7 +22,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // 🔗 BACKEND URL
 const API = axios.create({
-  baseURL: "http://localhost:5000/api"
+  baseURL: "${API_BASE_URL}/api"
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {

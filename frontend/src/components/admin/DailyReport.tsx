@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import jsPDF from 'jspdf';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: '${API_BASE_URL}/api',
 });
 
 API.interceptors.request.use((config) => {

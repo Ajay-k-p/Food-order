@@ -39,7 +39,7 @@ const Index = () => {
   const fetchRestaurants = async () => {
     try {
       setIsLoading(true);
-      const { data } = await axios.get('http://localhost:5000/api/restaurants');
+      const { data } = await axios.get('${API_BASE_URL}/api/restaurants');
       // Handle both direct array response and wrapped response
       const restaurantsData = data.data || data;
       const normalized = Array.isArray(restaurantsData)
