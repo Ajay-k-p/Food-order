@@ -13,8 +13,27 @@ const app = express();
    MIDDLEWARE
 ========================================================= */
 
-// ✅ CORS (safe for dev + prod)
-app.use(cors());
+// ✅ CORS (safe for local + Vercel frontend)
+const allowedOrigins = [
+  process.env.FRONTEND_URL,        // http://localhost:5173
+  process.env.FRONTEND_URL_PROD    // https://your-frontend.vercel.app
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // allow requests with no origin (Postman, mobile apps)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed"));
+      }
+    },
+    credentials: true,
+  })
+);
 
 // ✅ JSON (for non-file routes ONLY)
 app.use(express.json());
@@ -49,6 +68,11 @@ app.use((err, req, res, next) => {
   // Multer / Cloudinary errors
   if (err.name === "MulterError") {
     return res.status(400).json({ message: err.message });
+  }
+
+  // CORS error
+  if (err.message === "CORS not allowed") {
+    return res.status(403).json({ message: "CORS blocked this request" });
   }
 
   res.status(500).json({ message: err.message || "Server error" });
