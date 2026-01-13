@@ -12,11 +12,10 @@ import { API_BASE_URL } from '@/config/api';
 
 const categories = [
   { name: 'All', icon: Utensils },
-  { name: 'Burgers', icon: Sandwich },
+  { name: 'Backery', icon: Sandwich },
   { name: 'Pizza', icon: Pizza },
   { name: 'Indian', icon: Soup },
   { name: 'Desserts', icon: IceCream },
-  { name: 'Asian', icon: ChefHat },
 ];
 
 const Index = () => {
