@@ -16,22 +16,28 @@ const app = express();
 // ✅ CORS (safe for local + Vercel frontend)
 const allowedOrigins = [
   process.env.FRONTEND_URL,        // http://localhost:5173
-  process.env.FRONTEND_URL_PROD    // https://your-frontend.vercel.app
+  process.env.FRONTEND_URL_PROD    // https://food-order-sepia-delta.vercel.app
 ];
+
+// ✅ Handle preflight requests (🔥 VERY IMPORTANT FOR BROWSERS)
+app.options("*", cors());
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      // allow requests with no origin (Postman, mobile apps)
+      // Allow requests with no origin (Postman, direct browser open)
       if (!origin) return callback(null, true);
 
       if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("CORS not allowed"));
+        return callback(null, true);
       }
+
+      console.error("❌ CORS blocked origin:", origin);
+      return callback(new Error("CORS not allowed"));
     },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
