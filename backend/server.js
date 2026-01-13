@@ -19,13 +19,10 @@ const allowedOrigins = [
   process.env.FRONTEND_URL_PROD    // https://food-order-sepia-delta.vercel.app
 ];
 
-// ✅ Handle preflight requests (🔥 VERY IMPORTANT FOR BROWSERS)
-app.options("*", cors());
-
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (Postman, direct browser open)
+      // Allow requests with no origin (Postman, direct browser)
       if (!origin) return callback(null, true);
 
       if (allowedOrigins.includes(origin)) {
@@ -38,6 +35,7 @@ app.use(
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    optionsSuccessStatus: 200 // ✅ FIX for legacy browsers
   })
 );
 
@@ -66,17 +64,15 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/admin", adminRoutes);
 
 /* =========================================================
-   GLOBAL ERROR HANDLER (🔥 VERY IMPORTANT)
+   GLOBAL ERROR HANDLER
 ========================================================= */
 app.use((err, req, res, next) => {
   console.error("GLOBAL ERROR:", err.message);
 
-  // Multer / Cloudinary errors
   if (err.name === "MulterError") {
     return res.status(400).json({ message: err.message });
   }
 
-  // CORS error
   if (err.message === "CORS not allowed") {
     return res.status(403).json({ message: "CORS blocked this request" });
   }
