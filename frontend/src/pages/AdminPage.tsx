@@ -22,6 +22,8 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 
 import { toast } from 'sonner';
+import { API_BASE_URL } from '@/config/api';
+
 
 import {
   BarChart3,
@@ -37,7 +39,7 @@ import {
 /* ================= API ================= */
 
 const API = axios.create({
-  baseURL: '${API_BASE_URL}/api',
+  baseURL: `${API_BASE_URL}/api`,
 });
 
 API.interceptors.request.use((config) => {

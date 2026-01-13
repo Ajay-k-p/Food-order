@@ -7,6 +7,8 @@ import { RestaurantCard } from '@/components/restaurant/RestaurantCard';
 import { CartSidebar } from '@/components/cart/CartSidebar';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { API_BASE_URL } from '@/config/api';
+
 
 const categories = [
   { name: 'All', icon: Utensils },
@@ -39,7 +41,7 @@ const Index = () => {
   const fetchRestaurants = async () => {
     try {
       setIsLoading(true);
-      const { data } = await axios.get('${API_BASE_URL}/api/restaurants');
+      const { data } = await axios.get(`${API_BASE_URL}/api/restaurants`);
       // Handle both direct array response and wrapped response
       const restaurantsData = data.data || data;
       const normalized = Array.isArray(restaurantsData)

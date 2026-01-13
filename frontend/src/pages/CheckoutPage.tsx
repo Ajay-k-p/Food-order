@@ -10,6 +10,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
+import { API_BASE_URL } from '@/config/api';
+
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
@@ -93,7 +95,7 @@ const CheckoutPage = () => {
 
       console.log('Sending order data:', orderData);
 
-      const response = await fetch('${API_BASE_URL}/api/orders', {
+      const response = await fetch(`${API_BASE_URL}/api/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

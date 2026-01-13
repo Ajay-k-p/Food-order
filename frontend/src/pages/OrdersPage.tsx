@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/AuthContext';
 import { Order } from '@/types';
 import axios from 'axios';
+import { API_BASE_URL } from '@/config/api';
+
 
 
 
@@ -69,7 +71,7 @@ const OrdersPage = () => {
 
   // 🔗 BACKEND URL
   const API = axios.create({
-    baseURL: "${API_BASE_URL}/api"
+    baseURL: `${API_BASE_URL}/api`
   });
 
   // Add auth token to requests

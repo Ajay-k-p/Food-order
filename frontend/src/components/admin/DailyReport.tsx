@@ -6,9 +6,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Download, FileText, IndianRupee, Package, Store } from 'lucide-react';
 import { toast } from 'sonner';
 import jsPDF from 'jspdf';
+import { API_BASE_URL } from '@/config/api';
+
 
 const API = axios.create({
-  baseURL: '${API_BASE_URL}/api',
+  baseURL: `${API_BASE_URL}/api`,
 });
 
 API.interceptors.request.use((config) => {

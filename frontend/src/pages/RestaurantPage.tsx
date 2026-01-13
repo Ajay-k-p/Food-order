@@ -11,6 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useCart } from '@/context/CartContext';
 import { Link } from 'react-router-dom';
 import { MenuItem } from '@/types';
+import { API_BASE_URL } from '@/config/api';
+
 
 const RestaurantPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -23,7 +25,7 @@ const RestaurantPage = () => {
 
   // 🔗 BACKEND URL
   const API = axios.create({
-    baseURL: "${API_BASE_URL}/api"
+    baseURL: `${API_BASE_URL}/api`
   });
 
   // Fetch restaurant from backend

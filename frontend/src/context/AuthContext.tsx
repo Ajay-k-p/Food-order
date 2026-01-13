@@ -8,6 +8,8 @@ import React, {
 import axios from "axios";
 import { User } from "@/types";
 import { toast } from "sonner";
+import { API_BASE_URL } from '@/config/api';
+
 
 interface AuthContextType {
   user: User | null;
@@ -22,7 +24,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // 🔗 BACKEND URL
 const API = axios.create({
-  baseURL: "${API_BASE_URL}/api"
+  baseURL: `${API_BASE_URL}/api`
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
