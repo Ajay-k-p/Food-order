@@ -3,46 +3,50 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
-// Load environment variables
 dotenv.config();
 
-// Initialize Express app
 const app = express();
 
 /* =========================================================
-   MIDDLEWARE
+   CORS (FINAL, BULLETPROOF)
 ========================================================= */
 
-// ✅ CORS (safe for local + Vercel frontend)
 const allowedOrigins = [
-  process.env.FRONTEND_URL,        // http://localhost:5173
-  process.env.FRONTEND_URL_PROD    // https://food-order-sepia-delta.vercel.app
+  "http://localhost:5173",
+  "https://food-order-sepia-delta.vercel.app"
 ];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin (Postman, direct browser)
-      if (!origin) return callback(null, true);
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
 
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS"
+    );
+  }
 
-      console.error("❌ CORS blocked origin:", origin);
-      return callback(new Error("CORS not allowed"));
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    optionsSuccessStatus: 200 // ✅ FIX for legacy browsers
-  })
-);
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
 
-// ✅ JSON (for non-file routes ONLY)
+  next();
+});
+
+// Backup cors (safe)
+app.use(cors());
+
+/* =========================================================
+   BODY PARSERS
+========================================================= */
+
 app.use(express.json());
-
-// ✅ URL encoded (forms without files)
 app.use(express.urlencoded({ extended: true }));
 
 /* =========================================================
@@ -64,31 +68,24 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/admin", adminRoutes);
 
 /* =========================================================
-   GLOBAL ERROR HANDLER
+   ERROR HANDLER
 ========================================================= */
+
 app.use((err, req, res, next) => {
   console.error("GLOBAL ERROR:", err.message);
-
-  if (err.name === "MulterError") {
-    return res.status(400).json({ message: err.message });
-  }
-
-  if (err.message === "CORS not allowed") {
-    return res.status(403).json({ message: "CORS blocked this request" });
-  }
-
   res.status(500).json({ message: err.message || "Server error" });
 });
 
 /* =========================================================
-   DATABASE CONNECTION
+   DATABASE
 ========================================================= */
+
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
     console.log("✅ Connected to MongoDB Atlas");
-  } catch (error) {
-    console.error("❌ MongoDB connection failed:", error.message);
+  } catch (err) {
+    console.error("❌ MongoDB error:", err.message);
     process.exit(1);
   }
 };
@@ -96,6 +93,7 @@ const connectDB = async () => {
 /* =========================================================
    SERVER START
 ========================================================= */
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, async () => {
