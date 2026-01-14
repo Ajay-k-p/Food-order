@@ -133,7 +133,7 @@ export const Header = () => {
                 {/* Mobile Location */}
                 <div className="flex items-center gap-2 rounded-lg bg-secondary p-3">
                   <MapPin className="h-4 w-4 text-primary" />
-                  <span className="text-sm font-medium">Bangalore, India</span>
+                  <span className="text-sm font-medium">manjeri,malappuram</span>
                 </div>
 
                 <div className="h-px bg-border" />

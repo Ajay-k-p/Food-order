@@ -10,7 +10,7 @@ const MenuItem = require("../models/MenuItem");
 exports.getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
-      .populate("user", "name email")
+      .populate("user", "name email phone")
       .populate("restaurantId", "name")
       .sort({ createdAt: -1 });
 

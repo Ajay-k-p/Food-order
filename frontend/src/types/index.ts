@@ -2,6 +2,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  phone?: string;
   role: 'user' | 'admin';
 }
 
@@ -39,6 +40,7 @@ export interface CartItem extends MenuItem {
 export interface Order {
   id: string;
   userId: string;
+  user?: User;
   restaurantId: string;
   restaurantName: string;
   items: CartItem[];

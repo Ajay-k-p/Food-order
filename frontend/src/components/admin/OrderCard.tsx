@@ -89,7 +89,7 @@ export const OrderCard = ({ order, onStatusChange, onExpectedDeliveryChange, onM
         !order.isRead ? 'border-success border-2 ring-2 ring-success/20' : 'border-border'
       }`}
     >
-      <div className="flex flex-wrap items-start justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
         <div className="flex-1">
           <div className="flex items-center gap-3">
             <span className="font-display text-lg font-bold">#{order.id}</span>
@@ -104,6 +104,9 @@ export const OrderCard = ({ order, onStatusChange, onExpectedDeliveryChange, onM
           </div>
           <p className="mt-1 text-sm text-muted-foreground">
             {order.deliveryAddress}
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Customer: {order.user?.name} {order.user?.phone && `(${order.user.phone})`}
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             {order.items.map((item) => (

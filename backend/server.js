@@ -13,7 +13,9 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://food-order-sepia-delta.vercel.app"
+  "http://localhost:8080",
+  "https://food-order-sepia-delta.vercel.app",
+  "https://food-order-gax4.onrender.com"
 ];
 
 app.use((req, res, next) => {
