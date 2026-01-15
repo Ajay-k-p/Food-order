@@ -1,0 +1,2 @@
+- [x] Replace ₹ symbol with Rs. in DailyReport.tsx PDF generation
+- [x] Replace ₹ symbol with Rs. in MonthlyReport.tsx PDF generation
