@@ -66,10 +66,11 @@ const orderSchema = new mongoose.Schema(
     },
 
     phoneNumber: {
-    type: String,
+      type: String,
       required: true,
       match: [/^[1-9]\d{9}$/, "Invalid phone number"]
     },
+
     expectedDeliveryDate: String,
     expectedDeliveryTime: String,
 
